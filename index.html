@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blessed | Boutique</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body, html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            background-color: #0d0d0d;
+            scroll-behavior: smooth;
+        }
+
+        /* Sección Hero */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 80px;
+        }
+
+        .navbar {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            width: auto;
+            border-radius: 5px;
+        }
+
+        .logo-display {
+            max-width: 280px;
+            height: auto;
+            filter: drop-shadow(0 0 25px rgba(243, 156, 18, 0.5));
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo-display:hover {
+            transform: scale(1.03);
+        }
+
+        .btn-custom {
+            background-color: #f39c12;
+            color: #000;
+            font-weight: 600;
+            border: none;
+            padding: 10px 24px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #d68910;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
+
+        .card-glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+        }
+
+        /* Sección Catalogo */
+        .product-section {
+            padding: 80px 0;
+            background: linear-gradient(180deg, #0d0d0d 0%, #151515 100%);
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.25);
+        }
+
+        .product-card img {
+            height: 190px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .badge-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 10px;
+            font-size: 0.70rem;
+            font-weight: 600;
+            border-radius: 50rem;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .color-dots-container {
+            display: flex;
+            gap: 5px;
+            padding: 8px 15px 0 15px;
+            align-items: center;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Sidebar de Categorías */
+        .category-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 6px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-item:hover, .category-item.active {
+            background: rgba(243, 156, 18, 0.15);
+            border-color: #f39c12;
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        /* Módulo Admin */
+        .admin-section {
+            padding: 100px 0;
+            background-color: #111;
+            border-top: 1px solid rgba(243, 156, 18, 0.2);
+        }
+
+        .form-control, .form-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #f39c12;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(243, 156, 18, 0.2);
+        }
+
+        /* Modales */
+        .modal-content-glass {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(243, 156, 18, 0.3);
+            border-radius: 20px;
+            color: #fff;
+        }
+
+        .pago-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(243, 156, 18, 0.5);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        input[type="file"]::file-selector-button {
+            background-color: #f39c12;
+            color: #000;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: #d68910;
+        }
+
+        .table-dark-custom {
+            background: transparent;
+            color: #fff;
+        }
+
+        .footer {
+            background: #080808;
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            color: #777;
+        }
+    </style>
+</head>
+<body id="inicio">
+
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold tracking-wide" href="#inicio">
+                <img src="Gemini_Generated_Image_rms1q7rms1q7rms1 (1).jfif" alt="Blessed Logo">
+                BLESSED
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link active" href="#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#catalogo">Colección</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#admin-panel">Panel Admin</a></li>
+                    <li class="nav-item ms-lg-3"><a href="#admin-panel" class="btn btn-outline-warning btn-sm rounded-pill px-3">Registrar Mercancía</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="row align-items-center justify-content-center g-5 card-glass p-4 p-lg-5 mx-2 shadow-lg">
+                <div class="col-lg-5 text-center">
+                    <a href="#inicio">
+                        <img src="Gemini_Generated_Image_rms1q7rms1q7rms1 (1).jfif" alt="Logo Principal Blessed" class="logo-display img-fluid">
+                    </a>
+                </div>
+                <div class="col-lg-7 text-center text-lg-start">
+                    <h1 class="display-5 fw-bold mb-3 text-warning">Bienvenido a Blessed</h1>
+                    <p class="lead text-light mb-4">Estilo, elegancia y tendencia diseñados especialmente para ti. Descubre nuestra nueva colección exclusiva y marca la diferencia.</p>
+                    <a href="#catalogo" class="btn btn-custom btn-lg rounded-pill">Ver Colección</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Catálogo de Productos y Categorías -->
+    <section id="catalogo" class="product-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-warning display-6">Nuestra Colección</h2>
+                <p class="text-muted">Explora las prendas exclusivas de la temporada</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Productos (Lado Izquierdo) -->
+                <div class="col-lg-9">
+                    <div class="row g-3" id="contenedor-productos">
+                        <!-- Productos Dinámicos -->
+                    </div>
+                </div>
+
+                <!-- Categorías (Lado Derecho) -->
+                <div class="col-lg-3">
+                    <div class="card-glass p-3 sticky-top" style="top: 100px;">
+                        <h5 class="fw-bold text-warning mb-3 pb-2 border-bottom border-secondary border-opacity-25">Categorías</h5>
+                        <div id="lista-categorias">
+                            <!-- Categorías Dinámicas -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Módulo Admin -->
+    <section id="admin-panel" class="admin-section">
+        <div class="container">
+            <div class="row mb-5 text-center">
+                <div class="col">
+                    <h2 class="fw-bold text-warning">Panel de Administración</h2>
+                    <p class="text-muted">Gestiona inventario, categorías, pedidos recibidos y datos bancarios</p>
+                </div>
+            </div>
+
+            <!-- Fila 0: Crear y Administrar Categorías -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card-glass p-4 p-md-5">
+                        <h4 class="fw-bold mb-4 text-warning">Gestión de Categorías</h4>
+                        <div class="row g-4">
+                            <div class="col-md-5">
+                                <form id="form-crear-categoria">
+                                    <label for="nuevaCategoriaNombre" class="form-label text-muted small">Nombre de la Nueva Categoría</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="nuevaCategoriaNombre" required placeholder="Ej. Calzados, Blusas...">
+                                        <button type="submit" class="btn btn-custom">Agregar</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-7">
+                                <label class="form-label text-muted small d-block">Categorías Existentes</label>
+                                <div id="contenedor-badges-categorias" class="d-flex flex-wrap gap-2">
+                                    <!-- Badges con opción de eliminar -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fila 1: Gestión de Productos e Inventario -->
+            <div class="row g-5 mb-5">
+                <!-- Formulario de Prendas -->
+                <div class="col-lg-5">
+                    <div class="card-glass p-4 p-md-5">
+                        <h4 class="fw-bold mb-4 text-white" id="titulo-formulario">Agregar Nueva Prenda</h4>
+                        <form id="form-producto">
+                            <input type="hidden" id="edit-index" value="-1">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label text-muted small">Nombre del Producto</label>
+                                <input type="text" class="form-control" id="nombre" required placeholder="Ej. Blazer Oversize">
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <label for="precio" class="form-label text-muted small">Precio ($)</label>
+                                    <input type="number" step="0.01" class="form-control" id="precio" required placeholder="55.00">
+                                </div>
+                                <div class="col-6">
+                                    <label for="existencia" class="form-label text-muted small">Existencia (Stock)</label>
+                                    <input type="number" min="0" class="form-control" id="existencia" required placeholder="10">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="categoria" class="form-label text-muted small">Categoría</label>
+                                <select class="form-select" id="categoria" required>
+                                    <!-- Opciones cargadas dinámicamente -->
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagenFile" class="form-label text-muted small">Imagen del Producto</label>
+                                <input type="file" class="form-control" id="imagenFile" accept="image/*">
+                                <small class="text-muted d-block mt-1" id="imagen-help">Requerido para nuevos productos.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="colores" class="form-label text-muted small">Colores Disponibles</label>
+                                <select class="form-select" id="colores" required>
+                                    <option value="" disabled selected>Selecciona los colores</option>
+                                    <option value="#000000,#ffffff,#e74c3c">Negro, Blanco, Rojo</option>
+                                    <option value="#34495e,#f39c12,#27ae60">Azul Oscuro, Mostaza, Verde</option>
+                                    <option value="#8e44ad,#95a5a6,#000000">Morado, Gris, Negro</option>
+                                    <option value="#e74c3c,#34495e">Rojo, Azul Oscuro</option>
+                                    <option value="#ffffff,#000000">Blanco, Negro</option>
+                                    <option value="#f39c12,#8e44ad">Mostaza, Morado</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="descripcion" class="form-label text-muted small">Descripción Corta</label>
+                                <textarea class="form-control" id="descripcion" rows="3" required placeholder="Detalles de la prenda..."></textarea>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-custom w-100 rounded-pill" id="btn-submit">Registrar Mercancía</button>
+                                <button type="button" class="btn btn-outline-secondary rounded-pill d-none" id="btn-cancelar">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Tabla de Inventario -->
+                <div class="col-lg-7">
+                    <div class="card-glass p-4 p-md-5 h-100">
+                        <h4 class="fw-bold mb-4 text-white">Inventario Reciente</h4>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover align-middle table-dark-custom">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Categoría</th>
+                                        <th>Precio</th>
+                                        <th>Stock</th>
+                                        <th class="text-end">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-inventario">
+                                    <!-- Filas Dinámicas -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fila 2: Registro de Compras Recibidas -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card-glass p-4 p-md-5">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h4 class="fw-bold text-warning mb-1">Compras / Pedidos Recibidos</h4>
+                                <p class="text-muted small mb-0">Listado de transacciones reportadas por los clientes.</p>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="vaciarHistorialVentas()">Vaciar Historial</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover align-middle table-dark-custom">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha / Hora</th>
+                                        <th>Cliente</th>
+                                        <th>Producto</th>
+                                        <th>Monto</th>
+                                        <th>Método</th>
+                                        <th>N° Referencia</th>
+                                        <th class="text-center">Comprobante</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-ventas">
+                                    <!-- Filas de Ventas -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fila 3: Configuración de Formas de Pago -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-glass p-4 p-md-5">
+                        <h4 class="fw-bold mb-4 text-warning">Configuración de Formas de Pago</h4>
+                        <p class="text-muted small">Ingresa la información bancaria que visualizan los clientes al momento de pagar.</p>
+                        <form id="form-config-pagos">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="adminPagoMovil" class="form-label text-muted small">Datos de Pago Móvil</label>
+                                    <input type="text" class="form-control" id="adminPagoMovil" required placeholder="Banco | C.I. | Teléfono">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="adminTransferencia" class="form-label text-muted small">Datos de Transferencia Bancaria</label>
+                                    <input type="text" class="form-control" id="adminTransferencia" required placeholder="Cta. Corriente # | Titular">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="adminZelle" class="form-label text-muted small">Datos de Zelle / Divisas (Opcional)</label>
+                                    <input type="text" class="form-control" id="adminZelle" placeholder="Correo / Titular / Instrucciones adicionales">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-warning rounded-pill mt-4 px-4">Guardar Datos de Pago</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Formulario de Pago -->
+    <div class="modal fade" id="modalPago" tabindex="-1" aria-labelledby="modalPagoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-glass p-2">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold text-warning" id="modalPagoLabel">Procesar Compra</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center gap-3 mb-3 p-2 border border-secondary rounded-3">
+                        <img id="pago-prod-img" src="" alt="Producto" style="width: 65px; height: 65px; object-fit: cover; border-radius: 8px;">
+                        <div>
+                            <h6 class="fw-bold text-white mb-0" id="pago-prod-nombre">-</h6>
+                            <span class="text-warning fw-bold fs-5" id="pago-prod-precio">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="pago-box mb-3 small">
+                        <div class="fw-bold text-warning mb-1">Datos Bancarios para la Compra:</div>
+                        <div id="display-pago-movil"><strong>Pago Móvil:</strong> No configurado</div>
+                        <div id="display-transferencia"><strong>Transferencia:</strong> No configurado</div>
+                        <div id="display-zelle" class="mt-1 text-info"></div>
+                    </div>
+
+                    <form id="form-reportar-pago">
+                        <input type="hidden" id="pago-prod-index">
+                        <div class="mb-3">
+                            <label for="clienteNombre" class="form-label small text-muted">Nombre y Apellido</label>
+                            <input type="text" class="form-control" id="clienteNombre" required placeholder="Ej. María Pérez">
+                        </div>
+                        <div class="mb-3">
+                            <label for="formaPago" class="form-label small text-muted">Forma de Pago Seleccionada</label>
+                            <select class="form-select" id="formaPago" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="Pago Móvil">Pago Móvil</option>
+                                <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                                <option value="Zelle / Divisas">Zelle / Divisas</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="numReferencia" class="form-label small text-muted">Número de Referencia</label>
+                            <input type="text" class="form-control" id="numReferencia" required placeholder="Ej. 12345678">
+                        </div>
+                        <div class="mb-3">
+                            <label for="comprobanteFile" class="form-label small text-muted">Cargar Comprobante (Imagen)</label>
+                            <input type="file" class="form-control" id="comprobanteFile" accept="image/*" required>
+                        </div>
+                        <button type="submit" class="btn btn-custom w-100 rounded-pill mt-2">Confirmar y Enviar Pago</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualizar Comprobante -->
+    <div class="modal fade" id="modalVerComprobante" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-glass p-3 text-center">
+                <div class="modal-header border-0 p-0 mb-3">
+                    <h5 class="modal-title fw-bold text-warning">Comprobante de Pago</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <img id="imgComprobanteVer" src="" class="img-fluid rounded border border-secondary" style="max-height: 450px;" alt="Comprobante">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Blessed Boutique. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        const formProducto = document.getElementById('form-producto');
+        const contenedorProductos = document.getElementById('contenedor-productos');
+        const tablaInventario = document.getElementById('tabla-inventario');
+        const tablaVentas = document.getElementById('tabla-ventas');
+        const listaCategorias = document.getElementById('lista-categorias');
+        const selectCategoriaForm = document.getElementById('categoria');
+        const formCrearCategoria = document.getElementById('form-crear-categoria');
+        const contenedorBadgesCat = document.getElementById('contenedor-badges-categorias');
+        
+        const editIndexInput = document.getElementById('edit-index');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnCancelar = document.getElementById('btn-cancelar');
+        const tituloFormulario = document.getElementById('titulo-formulario');
+        const imagenInput = document.getElementById('imagenFile');
+
+        const formConfigPagos = document.getElementById('form-config-pagos');
+        const modalPagoElement = document.getElementById('modalPago');
+        const modalPago = new bootstrap.Modal(modalPagoElement);
+        const modalComprobante = new bootstrap.Modal(document.getElementById('modalVerComprobante'));
+        const formReportarPago = document.getElementById('form-reportar-pago');
+
+        let categoriaSeleccionada = 'Todas';
+
+        const categoriasIniciales = ["Vestidos", "Conjuntos", "Chaquetas", "Accesorios"];
+
+        const configPagosIniciales = {
+            pagoMovil: "Mercantil (0105) | C.I: 20.123.456 | Tel: 0412-1234567",
+            transferencia: "Cta. Corriente #0105-0123-45-6789012345 | Blessed Boutique C.A.",
+            zelle: "blessedboutique@email.com | Titular: Blessed Boutique"
+        };
+
+        const productosIniciales = [
+            {
+                nombre: "Vestido Casual Urbano",
+                categoria: "Vestidos",
+                precio: "45.00",
+                existencia: 12,
+                imagen: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80",
+                colores: ["#000000", "#e74c3c", "#ffffff"],
+                descripcion: "Diseño moderno y cómodo para cualquier ocasión especial."
+            },
+            {
+                nombre: "Conjunto Chic Minimalista",
+                categoria: "Conjuntos",
+                precio: "60.00",
+                existencia: 8,
+                imagen: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80",
+                colores: ["#f39c12", "#34495e"],
+                descripcion: "Combinación perfecta entre sofisticación y tendencia actual."
+            },
+            {
+                nombre: "Chaqueta Estilo Boutique",
+                categoria: "Chaquetas",
+                precio: "75.00",
+                existencia: 0,
+                imagen: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&q=80",
+                colores: ["#8e44ad", "#95a5a6", "#27ae60"],
+                descripcion: "Prenda estelar con acabados finos para destacar siempre."
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            let catGuardadas = JSON.parse(localStorage.getItem('blessed_categorias'));
+            if (!catGuardadas || catGuardadas.length === 0) {
+                localStorage.setItem('blessed_categorias', JSON.stringify(categoriasIniciales));
+            }
+
+            let guardados = JSON.parse(localStorage.getItem('blessed_items'));
+            if (!guardados || guardados.length === 0) {
+                localStorage.setItem('blessed_items', JSON.stringify(productosIniciales));
+            }
+
+            let pagosGuardados = JSON.parse(localStorage.getItem('blessed_config_pagos'));
+            if (!pagosGuardados) {
+                localStorage.setItem('blessed_config_pagos', JSON.stringify(configPagosIniciales));
+            }
+
+            cargarConfigPagos();
+            actualizarEstructuraCategorias();
+            renderizarTodo();
+            renderizarVentas();
+        });
+
+        // Crear Nueva Categoría
+        formCrearCategoria.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const inputNombre = document.getElementById('nuevaCategoriaNombre');
+            const nuevoNombre = inputNombre.value.trim();
+
+            if (nuevoNombre) {
+                let categorias = obtenerCategorias();
+                if (!categorias.includes(nuevoNombre)) {
+                    categorias.push(nuevoNombre);
+                    localStorage.setItem('blessed_categorias', JSON.stringify(categorias));
+                    inputNombre.value = '';
+                    actualizarEstructuraCategorias();
+                    alert(`Categoría "${nuevoNombre}" creada con éxito.`);
+                } else {
+                    alert('Esta categoría ya existe.');
+                }
+            }
+        });
+
+        // Eliminar Categoría
+        window.eliminarCategoria = function(catNombre) {
+            if (confirm(`¿Estás seguro de eliminar la categoría "${catNombre}"?`)) {
+                let categorias = obtenerCategorias();
+                categorias = categorias.filter(c => c !== catNombre);
+                localStorage.setItem('blessed_categorias', JSON.stringify(categorias));
+                
+                if (categoriaSeleccionada === catNombre) {
+                    categoriaSeleccionada = 'Todas';
+                }
+                actualizarEstructuraCategorias();
+                renderizarTodo();
+            }
+        };
+
+        function obtenerCategorias() {
+            return JSON.parse(localStorage.getItem('blessed_categorias')) || categoriasIniciales;
+        }
+
+        // Actualizar SELECT del Formulario, Badges del Admin y Sidebar
+        function actualizarEstructuraCategorias() {
+            const categorias = obtenerCategorias();
+
+            // 1. Llenar Select del Formulario
+            selectCategoriaForm.innerHTML = '<option value="" disabled selected>Selecciona una categoría</option>';
+            categorias.forEach(cat => {
+                selectCategoriaForm.innerHTML += `<option value="${cat}">${cat}</option>`;
+            });
+
+            // 2. Llenar Badges en el Admin
+            contenedorBadgesCat.innerHTML = '';
+            categorias.forEach(cat => {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-dark border border-secondary p-2 d-flex align-items-center gap-2';
+                badge.innerHTML = `
+                    ${cat}
+                    <button type="button" class="btn-close btn-close-white" style="font-size: 0.5rem;" onclick="eliminarCategoria('${cat}')"></button>
+                `;
+                contenedorBadgesCat.appendChild(badge);
+            });
+
+            // 3. Renderizar Sidebar Lateral
+            renderizarCategoriasSidebar();
+        }
+
+        function renderizarCategoriasSidebar() {
+            const items = obtenerStorage();
+            const categorias = obtenerCategorias();
+            const conteo = { "Todas": items.length };
+
+            items.forEach(item => {
+                const cat = item.categoria || 'Sin Categoría';
+                conteo[cat] = (conteo[cat] || 0) + 1;
+            });
+
+            listaCategorias.innerHTML = '';
+            const listaNombres = ["Todas", ...categorias];
+
+            listaNombres.forEach(cat => {
+                const num = conteo[cat] || 0;
+                const activeClass = categoriaSeleccionada === cat ? 'active' : '';
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `category-item ${activeClass}`;
+                itemDiv.onclick = () => seleccionarCategoria(cat);
+                itemDiv.innerHTML = `
+                    <span>${cat}</span>
+                    <span class="badge bg-secondary rounded-pill">${num}</span>
+                `;
+                listaCategorias.appendChild(itemDiv);
+            });
+        }
+
+        function seleccionarCategoria(cat) {
+            categoriaSeleccionada = cat;
+            renderizarCategoriasSidebar();
+            renderizarTodo();
+        }
+
+        // Guardar configuración de pagos
+        formConfigPagos.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nuevaConfig = {
+                pagoMovil: document.getElementById('adminPagoMovil').value.trim(),
+                transferencia: document.getElementById('adminTransferencia').value.trim(),
+                zelle: document.getElementById('adminZelle').value.trim()
+            };
+            localStorage.setItem('blessed_config_pagos', JSON.stringify(nuevaConfig));
+            alert('¡Formas de pago actualizadas con éxito!');
+            cargarConfigPagos();
+        });
+
+        function cargarConfigPagos() {
+            const config = JSON.parse(localStorage.getItem('blessed_config_pagos')) || configPagosIniciales;
+            document.getElementById('adminPagoMovil').value = config.pagoMovil || '';
+            document.getElementById('adminTransferencia').value = config.transferencia || '';
+            document.getElementById('adminZelle').value = config.zelle || '';
+
+            document.getElementById('display-pago-movil').innerHTML = `<strong>Pago Móvil:</strong> ${config.pagoMovil || 'No disponible'}`;
+            document.getElementById('display-transferencia').innerHTML = `<strong>Transferencia:</strong> ${config.transferencia || 'No disponible'}`;
+            document.getElementById('display-zelle').innerHTML = config.zelle ? `<strong>Zelle/Otros:</strong> ${config.zelle}` : '';
+        }
+
+        // Registrar / Editar Producto
+        formProducto.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const editIndex = parseInt(editIndexInput.value, 10);
+            const nombre = document.getElementById('nombre').value.trim();
+            const categoria = document.getElementById('categoria').value;
+            const precio = parseFloat(document.getElementById('precio').value).toFixed(2);
+            const existencia = parseInt(document.getElementById('existencia').value, 10) || 0;
+            const coloresSeleccionados = document.getElementById('colores').value.split(',');
+            const descripcion = document.getElementById('descripcion').value.trim();
+
+            const items = obtenerStorage();
+
+            if (editIndex === -1) {
+                if (imagenInput.files && imagenInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        const nuevoProducto = {
+                            nombre,
+                            categoria,
+                            precio,
+                            existencia,
+                            imagen: evt.target.result,
+                            colores: coloresSeleccionados,
+                            descripcion
+                        };
+                        items.push(nuevoProducto);
+                        guardarStorage(items);
+                        renderizarCategoriasSidebar();
+                        renderizarTodo();
+                        resetFormulario();
+                    };
+                    reader.readAsDataURL(imagenInput.files[0]);
+                } else {
+                    alert('Por favor selecciona una imagen para la prenda.');
+                }
+            } else {
+                const productoEditado = items[editIndex];
+                productoEditado.nombre = nombre;
+                productoEditado.categoria = categoria;
+                productoEditado.precio = precio;
+                productoEditado.existencia = existencia;
+                productoEditado.colores = coloresSeleccionados;
+                productoEditado.descripcion = descripcion;
+
+                if (imagenInput.files && imagenInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        productoEditado.imagen = evt.target.result;
+                        guardarStorage(items);
+                        renderizarCategoriasSidebar();
+                        renderizarTodo();
+                        resetFormulario();
+                    };
+                    reader.readAsDataURL(imagenInput.files[0]);
+                } else {
+                    guardarStorage(items);
+                    renderizarCategoriasSidebar();
+                    renderizarTodo();
+                    resetFormulario();
+                }
+            }
+        });
+
+        // Renderizar Catálogo y Tabla de Inventario
+        function renderizarTodo() {
+            contenedorProductos.innerHTML = '';
+            tablaInventario.innerHTML = '';
+            const items = obtenerStorage();
+
+            const filtrados = categoriaSeleccionada === 'Todas' 
+                ? items 
+                : items.filter(i => (i.categoria || 'Sin Categoría') === categoriaSeleccionada);
+
+            if (filtrados.length === 0) {
+                contenedorProductos.innerHTML = `<div class="col-12 text-center text-muted py-5"><p>No hay prendas registradas en la categoría <strong>${categoriaSeleccionada}</strong>.</p></div>`;
+            }
+
+            filtrados.forEach((item) => {
+                const indexOriginal = items.indexOf(item);
+                const estado = item.existencia > 0 ? 'Disponible' : 'Agotado';
+                const badgeClass = item.existencia > 0 ? 'bg-success' : 'bg-danger';
+                const botonAccion = item.existencia > 0 
+                    ? `<button class="btn btn-outline-warning btn-sm rounded-pill px-2 py-1 small" onclick="abrirModalPago(${indexOriginal})">Comprar</button>` 
+                    : '<button class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-1 small" disabled>Agotado</button>';
+
+                let dotsHtml = '<div class="color-dots-container">';
+                item.colores.forEach(col => {
+                    dotsHtml += `<span class="color-dot" style="background-color: ${col.trim()};"></span>`;
+                });
+                dotsHtml += '</div>';
+
+                const tarjeta = document.createElement('div');
+                tarjeta.className = 'col-md-4 col-sm-6';
+                tarjeta.innerHTML = `
+                    <div class="product-card h-100 d-flex flex-column">
+                        <span class="badge ${badgeClass} badge-status">${estado}</span>
+                        <img src="${item.imagen}" alt="${item.nombre}">
+                        ${dotsHtml}
+                        <div class="p-3 d-flex flex-column justify-content-between flex-grow-1">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="fw-bold text-white mb-0 text-truncate" title="${item.nombre}">${item.nombre}</h6>
+                                    <span class="badge bg-secondary" style="font-size: 0.65rem;">${item.existencia} u.</span>
+                                </div>
+                                <p class="text-muted small mb-0" style="font-size: 0.75rem; line-height: 1.2;">${item.descripcion}</p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top border-secondary border-opacity-25">
+                                <span class="text-warning fw-bold fs-6">$${item.precio}</span>
+                                ${botonAccion}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                contenedorProductos.appendChild(tarjeta);
+            });
+
+            // Llenar Tabla del Admin
+            items.forEach((item, index) => {
+                const estado = item.existencia > 0 ? 'Disponible' : 'Agotado';
+                const badgeClass = item.existencia > 0 ? 'bg-success' : 'bg-danger';
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${item.nombre}</td>
+                    <td><span class="badge bg-outline-warning border border-warning text-warning">${item.categoria || 'Gral'}</span></td>
+                    <td class="text-warning">$${item.precio}</td>
+                    <td><span class="fw-bold ${item.existencia > 0 ? 'text-white' : 'text-danger'}">${item.existencia}</span></td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-info me-1 rounded-pill" onclick="prepararEdicion(${index})">Editar</button>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="eliminarProducto(${index})">Eliminar</button>
+                    </td>
+                `;
+                tablaInventario.appendChild(fila);
+            });
+        }
+
+        // Abrir Modal de Pago
+        window.abrirModalPago = function(index) {
+            const items = obtenerStorage();
+            const prod = items[index];
+
+            document.getElementById('pago-prod-index').value = index;
+            document.getElementById('pago-prod-nombre').innerText = prod.nombre;
+            document.getElementById('pago-prod-precio').innerText = `$${prod.precio}`;
+            document.getElementById('pago-prod-img').src = prod.imagen;
+
+            formReportarPago.reset();
+            modalPago.show();
+        };
+
+        // Procesar Compra
+        formReportarPago.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const index = parseInt(document.getElementById('pago-prod-index').value, 10);
+            const items = obtenerStorage();
+            const cliente = document.getElementById('clienteNombre').value.trim();
+            const metodo = document.getElementById('formaPago').value;
+            const ref = document.getElementById('numReferencia').value.trim();
+            const compInput = document.getElementById('comprobanteFile');
+
+            if (items[index] && items[index].existencia > 0) {
+                if (compInput.files && compInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        const nuevaVenta = {
+                            fecha: new Date().toLocaleString('es-VE'),
+                            cliente: cliente,
+                            producto: items[index].nombre,
+                            monto: items[index].precio,
+                            metodo: metodo,
+                            referencia: ref,
+                            comprobante: evt.target.result
+                        };
+
+                        items[index].existencia -= 1;
+                        guardarStorage(items);
+                        guardarVenta(nuevaVenta);
+
+                        renderizarCategoriasSidebar();
+                        renderizarTodo();
+                        renderizarVentas();
+
+                        modalPago.hide();
+                        alert(`¡Gracias por tu compra, ${cliente}!\nHemos registrado tu pago vía ${metodo} (Ref: ${ref}).`);
+                    };
+                    reader.readAsDataURL(compInput.files[0]);
+                }
+            }
+        });
+
+        function guardarVenta(venta) {
+            const ventas = JSON.parse(localStorage.getItem('blessed_ventas')) || [];
+            ventas.unshift(venta);
+            localStorage.setItem('blessed_ventas', JSON.stringify(ventas));
+        }
+
+        function renderizarVentas() {
+            tablaVentas.innerHTML = '';
+            const ventas = JSON.parse(localStorage.getItem('blessed_ventas')) || [];
+
+            if (ventas.length === 0) {
+                tablaVentas.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-3">No hay compras registradas aun.</td></tr>`;
+                return;
+            }
+
+            ventas.forEach((v, index) => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td class="small text-muted">${v.fecha}</td>
+                    <td class="fw-bold text-white">${v.cliente}</td>
+                    <td>${v.producto}</td>
+                    <td class="text-warning fw-bold">$${v.monto}</td>
+                    <td><span class="badge bg-secondary">${v.metodo}</span></td>
+                    <td class="small">${v.referencia}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-warning rounded-pill px-3" onclick="verComprobante('${index}')">Ver Foto</button>
+                    </td>
+                `;
+                tablaVentas.appendChild(fila);
+            });
+        }
+
+        window.verComprobante = function(index) {
+            const ventas = JSON.parse(localStorage.getItem('blessed_ventas')) || [];
+            if (ventas[index] && ventas[index].comprobante) {
+                document.getElementById('imgComprobanteVer').src = ventas[index].comprobante;
+                modalComprobante.show();
+            }
+        };
+
+        window.vaciarHistorialVentas = function() {
+            if (confirm('¿Deseas limpiar todo el historial de pedidos recibidos?')) {
+                localStorage.removeItem('blessed_ventas');
+                renderizarVentas();
+            }
+        };
+
+        // Cargar Edición
+        window.prepararEdicion = function(index) {
+            const items = obtenerStorage();
+            const prod = items[index];
+
+            document.getElementById('nombre').value = prod.nombre;
+            document.getElementById('categoria').value = prod.categoria || 'Vestidos';
+            document.getElementById('precio').value = prod.precio;
+            document.getElementById('existencia').value = prod.existencia;
+            document.getElementById('descripcion').value = prod.descripcion;
+
+            const selectColores = document.getElementById('colores');
+            const colorCadena = prod.colores.join(',');
+            for (let option of selectColores.options) {
+                if (option.value === colorCadena) {
+                    option.selected = true;
+                    break;
+                }
+            }
+
+            editIndexInput.value = index;
+            tituloFormulario.innerText = "Editar Prenda";
+            btnSubmit.innerText = "Guardar Cambios";
+            btnCancelar.classList.remove('d-none');
+            imagenInput.required = false;
+
+            window.location.href = '#admin-panel';
+        };
+
+        // Eliminar Producto
+        window.eliminarProducto = function(index) {
+            if (confirm('¿Estás seguro de eliminar este producto del inventario?')) {
+                const items = obtenerStorage();
+                items.splice(index, 1);
+                guardarStorage(items);
+                renderizarCategoriasSidebar();
+                renderizarTodo();
+                if (parseInt(editIndexInput.value, 10) === index) {
+                    resetFormulario();
+                }
+            }
+        };
+
+        btnCancelar.addEventListener('click', resetFormulario);
+
+        function resetFormulario() {
+            formProducto.reset();
+            editIndexInput.value = "-1";
+            tituloFormulario.innerText = "Agregar Nueva Prenda";
+            btnSubmit.innerText = "Registrar Mercancía";
+            btnCancelar.classList.add('d-none');
+            imagenInput.required = true;
+        }
+
+        function obtenerStorage() {
+            return JSON.parse(localStorage.getItem('blessed_items')) || [];
+        }
+
+        function guardarStorage(items) {
+            localStorage.setItem('blessed_items', JSON.stringify(items));
+        }
+    </script>
+</body>
+</html>
