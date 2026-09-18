@@ -151,6 +151,59 @@
             font-weight: 600;
         }
 
+        /* Botón Flotante Carrito */
+        .cart-float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1030;
+            background-color: #f39c12;
+            color: #000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.5);
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            border: none;
+        }
+
+        .cart-float-btn:hover {
+            transform: scale(1.08);
+            background-color: #d68910;
+        }
+
+        .cart-float-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e74c3c;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 50%;
+            border: 2px solid #0d0d0d;
+        }
+
+        /* Offcanvas Carrito */
+        .offcanvas-cart {
+            background-color: #121212;
+            color: #fff;
+            border-left: 1px solid rgba(243, 156, 18, 0.2);
+        }
+
+        .cart-item-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 12px;
+        }
+
         /* Módulo Admin */
         .admin-section {
             padding: 100px 0;
@@ -234,11 +287,23 @@
                     <li class="nav-item"><a class="nav-link active" href="#inicio">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" href="#catalogo">Colección</a></li>
                     <li class="nav-item"><a class="nav-link" href="#admin-panel">Panel Admin</a></li>
-                    <li class="nav-item ms-lg-3"><a href="#admin-panel" class="btn btn-outline-warning btn-sm rounded-pill px-3">Registrar Mercancía</a></li>
+                    <li class="nav-item ms-lg-2 me-lg-2">
+                        <button class="btn btn-outline-warning rounded-pill position-relative px-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart">
+                            🛒 Carrito
+                            <span class="badge bg-danger rounded-pill ms-1" id="nav-cart-count">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item"><a href="#admin-panel" class="btn btn-warning btn-sm rounded-pill px-3 fw-semibold">Registrar Mercancía</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <!-- Botón Flotante Carrito -->
+    <button class="cart-float-btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" title="Ver Carrito de Compras">
+        <span style="font-size: 1.5rem;">🛒</span>
+        <span class="cart-float-badge" id="float-cart-count">0</span>
+    </button>
 
     <!-- Hero -->
     <header class="hero-section">
@@ -286,6 +351,27 @@
             </div>
         </div>
     </section>
+
+    <!-- Sidebar Offcanvas del Carrito de Compras -->
+    <div class="offcanvas offcanvas-end offcanvas-cart" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
+        <div class="offcanvas-header border-bottom border-secondary border-opacity-25">
+            <h5 class="offcanvas-title fw-bold text-warning" id="offcanvasCartLabel">🛒 Mi Carrito</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column justify-content-between">
+            <div id="contenedor-items-carrito">
+                <!-- Items agregados -->
+            </div>
+            <div class="border-top border-secondary border-opacity-25 pt-3 mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fs-5 fw-bold">Total a Pagar:</span>
+                    <span class="fs-4 fw-bold text-warning" id="total-carrito">$0.00</span>
+                </div>
+                <button class="btn btn-custom w-100 rounded-pill py-2" id="btn-procesar-carrito" onclick="abrirModalPagoDesdeCarrito()" disabled>Procesar Compra</button>
+                <button class="btn btn-outline-secondary btn-sm w-100 rounded-pill mt-2" onclick="vaciarCarrito()">Vaciar Carrito</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Módulo Admin -->
     <section id="admin-panel" class="admin-section">
@@ -421,8 +507,8 @@
                                     <tr>
                                         <th>Fecha / Hora</th>
                                         <th>Cliente</th>
-                                        <th>Producto</th>
-                                        <th>Monto</th>
+                                        <th>Productos</th>
+                                        <th>Monto Total</th>
                                         <th>Método</th>
                                         <th>N° Referencia</th>
                                         <th class="text-center">Comprobante</th>
@@ -471,15 +557,16 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content modal-content-glass p-2">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold text-warning" id="modalPagoLabel">Procesar Compra</h5>
+                    <h5 class="modal-title fw-bold text-warning" id="modalPagoLabel">Procesar Compra del Carrito</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="d-flex align-items-center gap-3 mb-3 p-2 border border-secondary rounded-3">
-                        <img id="pago-prod-img" src="" alt="Producto" style="width: 65px; height: 65px; object-fit: cover; border-radius: 8px;">
-                        <div>
-                            <h6 class="fw-bold text-white mb-0" id="pago-prod-nombre">-</h6>
-                            <span class="text-warning fw-bold fs-5" id="pago-prod-precio">$0.00</span>
+                    <div class="p-3 border border-secondary rounded-3 mb-3 bg-dark">
+                        <h6 class="fw-bold text-warning mb-2">Resumen de la Orden:</h6>
+                        <div id="pago-resumen-lista" class="small text-muted mb-2"></div>
+                        <div class="d-flex justify-content-between border-top border-secondary pt-2">
+                            <span class="fw-bold text-white">Monto Total:</span>
+                            <span class="text-warning fw-bold fs-5" id="pago-total-monto">$0.00</span>
                         </div>
                     </div>
 
@@ -491,7 +578,6 @@
                     </div>
 
                     <form id="form-reportar-pago">
-                        <input type="hidden" id="pago-prod-index">
                         <div class="mb-3">
                             <label for="clienteNombre" class="form-label small text-muted">Nombre y Apellido</label>
                             <input type="text" class="form-control" id="clienteNombre" required placeholder="Ej. María Pérez">
@@ -569,6 +655,7 @@
         const formReportarPago = document.getElementById('form-reportar-pago');
 
         let categoriaSeleccionada = 'Todas';
+        let carrito = [];
 
         const categoriasIniciales = ["Vestidos", "Conjuntos", "Chaquetas", "Accesorios"];
 
@@ -624,10 +711,225 @@
                 localStorage.setItem('blessed_config_pagos', JSON.stringify(configPagosIniciales));
             }
 
+            let carritoGuardado = JSON.parse(localStorage.getItem('blessed_carrito'));
+            if (carritoGuardado) {
+                carrito = carritoGuardado;
+            }
+
             cargarConfigPagos();
             actualizarEstructuraCategorias();
             renderizarTodo();
             renderizarVentas();
+            actualizarCarritoUI();
+        });
+
+        // FUNCIONES DEL CARRITO DE COMPRAS
+        window.agregarAlCarrito = function(indexOriginal) {
+            const items = obtenerStorage();
+            const prod = items[indexOriginal];
+
+            if (prod.existencia <= 0) {
+                alert('El producto se encuentra agotado.');
+                return;
+            }
+
+            const itemExistente = carrito.find(item => item.index === indexOriginal);
+
+            if (itemExistente) {
+                if (itemExistente.cantidad + 1 > prod.existencia) {
+                    alert(`Solo hay ${prod.existencia} unidades disponibles de este producto.`);
+                    return;
+                }
+                itemExistente.cantidad += 1;
+            } else {
+                carrito.push({
+                    index: indexOriginal,
+                    nombre: prod.nombre,
+                    precio: parseFloat(prod.precio),
+                    imagen: prod.imagen,
+                    cantidad: 1
+                });
+            }
+
+            guardarCarrito();
+            actualizarCarritoUI();
+            
+            // Abrir Offcanvas opcionalmente al agregar
+            const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('offcanvasCart'));
+            bsOffcanvas.show();
+        };
+
+        window.cambiarCantidadCarrito = function(cartIndex, cambio) {
+            const items = obtenerStorage();
+            const prodIndex = carrito[cartIndex].index;
+            const prodStock = items[prodIndex].existencia;
+
+            const nuevaCantidad = carrito[cartIndex].cantidad + cambio;
+
+            if (nuevaCantidad > prodStock) {
+                alert(`Solo hay ${prodStock} unidades disponibles de este producto.`);
+                return;
+            }
+
+            if (nuevaCantidad <= 0) {
+                carrito.splice(cartIndex, 1);
+            } else {
+                carrito[cartIndex].cantidad = nuevaCantidad;
+            }
+
+            guardarCarrito();
+            actualizarCarritoUI();
+        };
+
+        window.eliminarItemCarrito = function(cartIndex) {
+            carrito.splice(cartIndex, 1);
+            guardarCarrito();
+            actualizarCarritoUI();
+        };
+
+        window.vaciarCarrito = function() {
+            carrito = [];
+            guardarCarrito();
+            actualizarCarritoUI();
+        };
+
+        function guardarCarrito() {
+            localStorage.setItem('blessed_carrito', JSON.stringify(carrito));
+        }
+
+        function actualizarCarritoUI() {
+            const contItems = document.getElementById('contenedor-items-carrito');
+            const totalElement = document.getElementById('total-carrito');
+            const floatCount = document.getElementById('float-cart-count');
+            const navCount = document.getElementById('nav-cart-count');
+            const btnProcesar = document.getElementById('btn-procesar-carrito');
+
+            contItems.innerHTML = '';
+            let total = 0;
+            let totalCount = 0;
+
+            if (carrito.length === 0) {
+                contItems.innerHTML = '<p class="text-center text-muted my-5">Tu carrito está vacío.</p>';
+                btnProcesar.disabled = true;
+            } else {
+                btnProcesar.disabled = false;
+                carrito.forEach((item, cartIndex) => {
+                    const subtotal = item.precio * item.cantidad;
+                    total += subtotal;
+                    totalCount += item.cantidad;
+
+                    const cartCard = document.createElement('div');
+                    cartCard.className = 'cart-item-card d-flex align-items-center gap-3';
+                    cartCard.innerHTML = `
+                        <img src="${item.imagen}" style="width: 55px; height: 55px; object-fit: cover; border-radius: 8px;">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-0 text-white fw-bold small text-truncate" style="max-width: 140px;">${item.nombre}</h6>
+                            <span class="text-warning small">$${item.precio.toFixed(2)}</span>
+                            <div class="d-flex align-items-center gap-2 mt-1">
+                                <button class="btn btn-sm btn-outline-secondary py-0 px-2 text-white" onclick="cambiarCantidadCarrito(${cartIndex}, -1)">-</button>
+                                <span class="small fw-bold">${item.cantidad}</span>
+                                <button class="btn btn-sm btn-outline-secondary py-0 px-2 text-white" onclick="cambiarCantidadCarrito(${cartIndex}, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <span class="d-block text-white fw-bold small mb-1">$${subtotal.toFixed(2)}</span>
+                            <button class="btn btn-sm text-danger p-0 border-0" onclick="eliminarItemCarrito(${cartIndex})">🗑️</button>
+                        </div>
+                    `;
+                    contItems.appendChild(cartCard);
+                });
+            }
+
+            totalElement.innerText = `$${total.toFixed(2)}`;
+            floatCount.innerText = totalCount;
+            navCount.innerText = totalCount;
+        }
+
+        // Abrir Modal de Pago desde el Carrito
+        window.abrirModalPagoDesdeCarrito = function() {
+            if (carrito.length === 0) return;
+
+            const listaResumen = document.getElementById('pago-resumen-lista');
+            const totalMonto = document.getElementById('pago-total-monto');
+            
+            listaResumen.innerHTML = '';
+            let total = 0;
+
+            carrito.forEach(item => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                const p = document.createElement('div');
+                p.className = 'd-flex justify-content-between';
+                p.innerHTML = `<span>${item.cantidad}x ${item.nombre}</span><span>$${subtotal.toFixed(2)}</span>`;
+                listaResumen.appendChild(p);
+            });
+
+            totalMonto.innerText = `$${total.toFixed(2)}`;
+
+            // Ocultar Offcanvas
+            const bsOffcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('offcanvasCart'));
+            if (bsOffcanvas) bsOffcanvas.hide();
+
+            formReportarPago.reset();
+            modalPago.show();
+        };
+
+        // Procesar Compra General
+        formReportarPago.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (carrito.length === 0) return;
+
+            const items = obtenerStorage();
+            const cliente = document.getElementById('clienteNombre').value.trim();
+            const metodo = document.getElementById('formaPago').value;
+            const ref = document.getElementById('numReferencia').value.trim();
+            const compInput = document.getElementById('comprobanteFile');
+
+            let totalMonto = 0;
+            let nombresProductos = [];
+
+            // Verificar Stock antes de procesar
+            for (let cItem of carrito) {
+                if (items[cItem.index].existencia < cItem.cantidad) {
+                    alert(`Atención: No hay suficiente stock para "${cItem.nombre}".`);
+                    return;
+                }
+            }
+
+            if (compInput.files && compInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    // Descontar inventario
+                    carrito.forEach(cItem => {
+                        items[cItem.index].existencia -= cItem.cantidad;
+                        totalMonto += cItem.precio * cItem.cantidad;
+                        nombresProductos.push(`${cItem.cantidad}x ${cItem.nombre}`);
+                    });
+
+                    const nuevaVenta = {
+                        fecha: new Date().toLocaleString('es-VE'),
+                        cliente: cliente,
+                        producto: nombresProductos.join(', '),
+                        monto: totalMonto.toFixed(2),
+                        metodo: metodo,
+                        referencia: ref,
+                        comprobante: evt.target.result
+                    };
+
+                    guardarStorage(items);
+                    guardarVenta(nuevaVenta);
+                    vaciarCarrito();
+
+                    renderizarCategoriasSidebar();
+                    renderizarTodo();
+                    renderizarVentas();
+
+                    modalPago.hide();
+                    alert(`¡Gracias por tu compra, ${cliente}!\nHemos registrado tu pago vía ${metodo} (Ref: ${ref}).`);
+                };
+                reader.readAsDataURL(compInput.files[0]);
+            }
         });
 
         // Crear Nueva Categoría
@@ -669,17 +971,14 @@
             return JSON.parse(localStorage.getItem('blessed_categorias')) || categoriasIniciales;
         }
 
-        // Actualizar SELECT del Formulario, Badges del Admin y Sidebar
         function actualizarEstructuraCategorias() {
             const categorias = obtenerCategorias();
 
-            // 1. Llenar Select del Formulario
             selectCategoriaForm.innerHTML = '<option value="" disabled selected>Selecciona una categoría</option>';
             categorias.forEach(cat => {
                 selectCategoriaForm.innerHTML += `<option value="${cat}">${cat}</option>`;
             });
 
-            // 2. Llenar Badges en el Admin
             contenedorBadgesCat.innerHTML = '';
             categorias.forEach(cat => {
                 const badge = document.createElement('span');
@@ -691,7 +990,6 @@
                 contenedorBadgesCat.appendChild(badge);
             });
 
-            // 3. Renderizar Sidebar Lateral
             renderizarCategoriasSidebar();
         }
 
@@ -836,7 +1134,7 @@
                 const estado = item.existencia > 0 ? 'Disponible' : 'Agotado';
                 const badgeClass = item.existencia > 0 ? 'bg-success' : 'bg-danger';
                 const botonAccion = item.existencia > 0 
-                    ? `<button class="btn btn-outline-warning btn-sm rounded-pill px-2 py-1 small" onclick="abrirModalPago(${indexOriginal})">Comprar</button>` 
+                    ? `<button class="btn btn-outline-warning btn-sm rounded-pill px-2 py-1 small" onclick="agregarAlCarrito(${indexOriginal})">+ Carrito</button>` 
                     : '<button class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-1 small" disabled>Agotado</button>';
 
                 let dotsHtml = '<div class="color-dots-container">';
@@ -872,8 +1170,6 @@
 
             // Llenar Tabla del Admin
             items.forEach((item, index) => {
-                const estado = item.existencia > 0 ? 'Disponible' : 'Agotado';
-                const badgeClass = item.existencia > 0 ? 'bg-success' : 'bg-danger';
                 const fila = document.createElement('tr');
                 fila.innerHTML = `
                     <td>${item.nombre}</td>
@@ -888,61 +1184,6 @@
                 tablaInventario.appendChild(fila);
             });
         }
-
-        // Abrir Modal de Pago
-        window.abrirModalPago = function(index) {
-            const items = obtenerStorage();
-            const prod = items[index];
-
-            document.getElementById('pago-prod-index').value = index;
-            document.getElementById('pago-prod-nombre').innerText = prod.nombre;
-            document.getElementById('pago-prod-precio').innerText = `$${prod.precio}`;
-            document.getElementById('pago-prod-img').src = prod.imagen;
-
-            formReportarPago.reset();
-            modalPago.show();
-        };
-
-        // Procesar Compra
-        formReportarPago.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const index = parseInt(document.getElementById('pago-prod-index').value, 10);
-            const items = obtenerStorage();
-            const cliente = document.getElementById('clienteNombre').value.trim();
-            const metodo = document.getElementById('formaPago').value;
-            const ref = document.getElementById('numReferencia').value.trim();
-            const compInput = document.getElementById('comprobanteFile');
-
-            if (items[index] && items[index].existencia > 0) {
-                if (compInput.files && compInput.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(evt) {
-                        const nuevaVenta = {
-                            fecha: new Date().toLocaleString('es-VE'),
-                            cliente: cliente,
-                            producto: items[index].nombre,
-                            monto: items[index].precio,
-                            metodo: metodo,
-                            referencia: ref,
-                            comprobante: evt.target.result
-                        };
-
-                        items[index].existencia -= 1;
-                        guardarStorage(items);
-                        guardarVenta(nuevaVenta);
-
-                        renderizarCategoriasSidebar();
-                        renderizarTodo();
-                        renderizarVentas();
-
-                        modalPago.hide();
-                        alert(`¡Gracias por tu compra, ${cliente}!\nHemos registrado tu pago vía ${metodo} (Ref: ${ref}).`);
-                    };
-                    reader.readAsDataURL(compInput.files[0]);
-                }
-            }
-        });
 
         function guardarVenta(venta) {
             const ventas = JSON.parse(localStorage.getItem('blessed_ventas')) || [];
@@ -964,7 +1205,7 @@
                 fila.innerHTML = `
                     <td class="small text-muted">${v.fecha}</td>
                     <td class="fw-bold text-white">${v.cliente}</td>
-                    <td>${v.producto}</td>
+                    <td class="small text-light">${v.producto}</td>
                     <td class="text-warning fw-bold">$${v.monto}</td>
                     <td><span class="badge bg-secondary">${v.metodo}</span></td>
                     <td class="small">${v.referencia}</td>
